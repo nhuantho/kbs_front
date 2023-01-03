@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useContext, useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Admin from "./components/Admin/Admin";
+import Home from "./components/Chat/Home";
+import Commenter from "./components/Commenter/Commenter";
+import Staff from "./components/Saff/Staff";
+import Login from "./components/User/Login";
+import Register from "./components/User/Register";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const AppContext = createContext({
+	user: {},
+	setUser: () => {},
+});
+
+export const useAppContext = () => useContext(AppContext);
+
+export default function App() {
+	const [user, setUser] = useState();
+	return (
+		<div>
+			<AppContext.Provider
+				value={{
+					user,
+					setUser,
+				}}>
+				<Router>
+					<div>
+						<Routes>
+							<Route path='/' element={<Home />} />
+							<Route path='/dangnhap' element={<Login />} />
+							<Route path='/dangky' element={<Register />} />
+							<Route path='/quanly' element={<Admin />} />
+							<Route path='/nguoigopy' element={<Commenter />} />
+							<Route path='/nhanvien' element={<Staff />} />
+						</Routes>
+					</div>
+				</Router>
+			</AppContext.Provider>
+		</div>
+	);
 }
-
-export default App;
